@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wiktor Zalewski | Web Developer & Deployment</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;700;800&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="fav.ico" type="image/x-icon">
+    <style>
+        :root {
+            --bg: #020202;
+            --container-bg: rgba(8, 8, 8, 0.9);
+            --text: #ffffff;
+            --accent: #00ff88;
+            --card-border: rgba(255, 255, 255, 0.08);
+            --shadow: 0 30px 60px rgba(0,0,0,0.9);
+        }
+
+        [data-theme="light"] {
+            --bg: #ffffff;
+            --container-bg: rgba(250, 250, 250, 0.95);
+            --text: #050505;
+            --accent: #0062ff;
+            --card-border: rgba(0, 0, 0, 0.06);
+            --shadow: 0 20px 40px rgba(0,0,0,0.08);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+
+        body {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg);
+            color: var(--text);
+            transition: background 0.4s ease;
+            overflow: hidden;
+        }
+
+        .glow {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: var(--accent);
+            filter: blur(200px);
+            border-radius: 50%;
+            opacity: 0.12;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .theme-switch {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            cursor: pointer;
+            z-index: 100;
+            width: 45px;
+            height: 45px;
+            border-radius: 14px;
+            background: var(--container-bg);
+            border: 1px solid var(--card-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(12px);
+        }
+
+        .card {
+            position: relative;
+            z-index: 1;
+            width: 90%;
+            max-width: 440px;
+            padding: 40px;
+            background: var(--container-bg);
+            backdrop-filter: blur(40px);
+            border-radius: 40px;
+            border: 1px solid var(--card-border);
+            text-align: center;
+            box-shadow: var(--shadow);
+            animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9) translateY(40px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .avatar {
+            width: 65px;
+            height: 65px;
+            background: var(--accent);
+            border-radius: 18px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            color: #000;
+            animation: float 5s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        h1 { font-size: 2rem; font-weight: 800; margin-bottom: 5px; letter-spacing: -1px; }
+        
+        .sub-main { font-size: 0.9rem; opacity: 0.5; margin-bottom: 20px; font-weight: 600; }
+
+        .deployment-badge {
+            background: rgba(128, 128, 128, 0.1);
+            padding: 15px;
+            border-radius: 20px;
+            margin-bottom: 25px;
+            border: 1px dashed var(--card-border);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .dep-item { font-size: 0.75rem; font-weight: 700; display: flex; align-items: center; gap: 8px; justify-content: center; }
+        .dep-item i { color: var(--accent); }
+
+        .cta-box { margin-bottom: 25px; }
+        .cta-title { font-size: 1.1rem; font-weight: 800; color: var(--accent); margin-bottom: 5px; }
+        .cta-desc { font-size: 0.85rem; opacity: 0.7; line-height: 1.4; }
+
+        .links-container { display: flex; flex-direction: column; gap: 10px; }
+
+        .link-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 15px;
+            text-decoration: none;
+            border-radius: 16px;
+            font-weight: 800;
+            transition: 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .email-link { background: var(--text); color: var(--bg); }
+        .github-link { background: transparent; color: var(--text); border: 1px solid var(--card-border); }
+
+        .email-link:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0, 255, 136, 0.2); }
+        .github-link:hover { background: rgba(128, 128, 128, 0.1); }
+
+        .tech-icons {
+            margin-top: 25px;
+            font-size: 1.2rem;
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+            opacity: 0.3;
+        }
+    </style>
+</head>
+<body data-theme="dark">
+
+    <div class="glow" id="glow"></div>
+
+    <div class="theme-switch" onclick="toggleTheme()">
+        <i class="fas fa-moon" id="theme-icon"></i>
+    </div>
+
+    <div class="card">
+        <div class="avatar">
+            <i class="fas fa-layer-group"></i>
+        </div>
+        
+        <h1>Wiktor Zalewski</h1>
+        <p class="sub-main">WEB DEVELOPER • FULL DEPLOYMENT</p>
+
+        <div class="deployment-badge">
+            <div class="dep-item"><i class="fas fa-server"></i> Hosting</div>
+            <div class="dep-item"><i class="fas fa-globe"></i> Domeny/DNS</div>
+            <div class="dep-item"><i class="fas fa-shield-halved"></i> SSL/HTTPS</div>
+            <div class="dep-item"><i class="fab fa-cloudflare"></i> Cloudflare</div>
+        </div>
+
+        <div class="cta-box">
+            <p class="cta-title">Potrzebujesz strony?</p>
+            <p class="cta-desc">Od kodu, przez bazę danych, aż po konfigurację domeny i serwera. Napisz i stwórzmy coś razem!</p>
+        </div>
+
+        <div class="links-container">
+            <a href="mailto:wiktorzalewski50@gmail.com" class="link-item email-link">
+                <i class="fas fa-paper-plane"></i> wiktorzalewski50@gmail.com
+            </a>
+            <a href="https://github.com/wiktorzalewski" class="link-item github-link" target="_blank">
+                <i class="fab fa-github"></i> GITHUB PROFILE
+            </a>
+        </div>
+
+        <div class="tech-icons">
+            <i class="fab fa-html5" title="HTML5"></i>
+            <i class="fab fa-css3-alt" title="CSS3"></i>
+            <i class="fab fa-js" title="JavaScript"></i>
+            <i class="fab fa-php" title="PHP"></i>
+            <i class="fas fa-database" title="MySQL"></i>
+            <i class="fab fa-cloudflare" title="Cloudflare"></i>
+        </div>
+    </div>
+
+    <script>
+        const body = document.body;
+        const icon = document.getElementById('theme-icon');
+        const glow = document.getElementById('glow');
+
+        function toggleTheme() {
+            const isDark = body.getAttribute('data-theme') === 'dark';
+            body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+        }
+
+        document.addEventListener('mousemove', (e) => {
+            glow.style.left = (e.clientX - 250) + 'px';
+            glow.style.top = (e.clientY - 250) + 'px';
+        });
+    </script>
+</body>
+</html>
